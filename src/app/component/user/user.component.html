@@ -1,0 +1,133 @@
+<div class="overflow-x-auto w-4/5 m-auto mt-28">
+  <button class="btn btn-success" onclick="my_modal_1.showModal()">Add pigeon</button>
+  <dialog id="my_modal_1" class="modal">
+    <div class="modal-box">
+      <h3 class="text-lg font-bold">Add a new pigeon</h3>
+
+      <form #pigeonForm="ngForm" (ngSubmit)="addPigeon()" novalidate>
+        <!-- Ring Number -->
+        <label class="input input-bordered flex items-center gap-2 mb-5">
+          <span>Ring Number</span>
+          <input
+            type="text"
+            class="grow"
+            name="ringNumber"
+            [(ngModel)]="newPigeon.ringNumber"
+            placeholder="Enter Ring Number"
+            required
+            minlength="3"
+            maxlength="10"
+            #ringNumber="ngModel"
+          />
+        </label>
+        <p class="text-red-500 text-sm" *ngIf="ringNumber.invalid && ringNumber.touched">
+          Ring Number is required (3-10 characters).
+        </p>
+
+        <!-- Gender -->
+        <div class="form-control mb-5">
+          <label class="label cursor-pointer">
+            <span class="label-text">Male</span>
+            <input
+              type="radio"
+              name="gender"
+              class="radio checked:bg-blue-500"
+              [(ngModel)]="newPigeon.gender"
+              [value]="'Male'"
+              required
+              #gender="ngModel"
+            />
+          </label>
+          <label class="label cursor-pointer">
+            <span class="label-text">Female</span>
+            <input
+              type="radio"
+              name="gender"
+              class="radio checked:bg-red-500"
+              [(ngModel)]="newPigeon.gender"
+              [value]="'Female'"
+              required
+            />
+          </label>
+        </div>
+        <p class="text-red-500 text-sm" *ngIf="gender.invalid && gender.touched">
+          Please select a gender.
+        </p>
+
+        <!-- Color -->
+        <label class="input input-bordered flex items-center gap-2 mb-5">
+          <span>Color</span>
+          <input
+            type="color"
+            name="color"
+            [(ngModel)]="newPigeon.color"
+            required
+            #color="ngModel"
+          />
+        </label>
+        <p class="text-red-500 text-sm" *ngIf="color.invalid && color.touched">
+          Please select a color.
+        </p>
+
+        <!-- Age -->
+        <div class="relative z-0 w-full mb-5 group">
+          <input
+            type="number"
+            id="age"
+            name="age"
+            class="block py-2.5 px-0 w-full"
+            [(ngModel)]="newPigeon.age"
+            placeholder="Enter Age"
+            required
+            min="1"
+            max="20"
+            #age="ngModel"
+          />
+          <label for="age">Age</label>
+        </div>
+        <p class="text-red-500 text-sm" *ngIf="age.invalid && age.touched">
+          Age is required (between 1 and 20).
+        </p>
+
+        <!-- Actions -->
+        <div class="modal-action">
+          <button
+            class="btn btn-active btn-primary"
+            type="submit"
+            [disabled]="pigeonForm.invalid"
+          >
+            Add pigeon
+          </button>
+          <button class="btn" type="button" onclick="my_modal_1.close()">Close</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+
+
+<!-- Pigeons Table -->
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Ring Number</th>
+      <th>Gender</th>
+      <th>Age</th>
+      <th>Color</th>
+    </tr>
+    </thead>
+    <tbody>
+      @for (pigeon of pigeons ; track pigeon) {
+        <tr >
+          <td>{{pigeon.ringNumber}} </td>
+          <td>{{pigeon.gender}} </td>
+          <td>{{pigeon.age}} </td>
+          <td>
+            <div [style.backgroundColor]="pigeon.color" class="w-6 h-6 rounded-full"></div>
+          </td>
+        </tr>
+      }
+
+    </tbody>
+  </table>
+</div>

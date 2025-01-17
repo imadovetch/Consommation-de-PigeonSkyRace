@@ -1,0 +1,70 @@
+<div class="container mx-auto p-4">
+  <!-- Display selected championship -->
+  <div *ngIf="selectedChampionship; else noData">
+    <h1 class="text-2xl font-bold text-primary mb-4">
+      Championship Details: {{ selectedChampionship.name }}
+    </h1>
+
+    <div class="card bg-neutral shadow-md p-6 rounded-lg">
+      <div class="grid grid-cols-2 gap-4">
+       <div>
+         <h2 class="text-lg font-bold mb-2">Championship</h2>
+         <p><strong>Name:</strong> {{ selectedChampionship.name }}</p>
+       </div>
+        <div class="relative w-64">
+          <!-- Search Input -->
+          <input
+            type="text"
+            [(ngModel)]="searchTerm"
+            (input)="filterOptions()"
+            (focus)="showDropdown = true"
+            placeholder="Search Pigeon..."
+            class="input input-bordered w-full dark:bg-gray-800 dark:text-white"
+          />
+
+          <!-- Dropdown Options -->
+          <ul
+            *ngIf="showDropdown && filteredOptions.length > 0"
+            class="absolute z-10 mt-1 bg-white dark:bg-gray-800 shadow rounded w-full max-h-60 overflow-auto border border-gray-200 dark:border-gray-700"
+          >
+            <li
+              *ngFor="let option of filteredOptions"
+              (click)="selectOption(option)"
+              class="px-4 py-2 cursor-pointer hover:bg-gray-200 dark:hover:bg-gray-700"
+            >
+              {{ option }}
+            </li>
+          </ul>
+
+          <!-- No Results -->
+          <p
+            *ngIf="showDropdown && filteredOptions.length === 0"
+            class="mt-2 text-gray-500 dark:text-gray-400"
+          >
+            No results found.
+          </p>
+        </div>
+
+
+
+      </div>
+
+
+    </div>
+    <div class="bg-base-200 p-6 rounded-xl shadow-md" *ngFor="let pigeon of filteredPigeons">
+      <div class="bg-base-300 p-4 rounded-lg">
+        <p class="text-lg text-accent mb-2">Ring Number: <span class="font-bold text-white">{{ pigeon.pigeon.ringNumber }}</span></p>
+      </div>
+    </div>
+
+
+  </div>
+
+
+  <!-- Fallback if no championship is found -->
+  <ng-template #noData>
+    <div class="alert alert-warning mt-4">
+      <p>No championship data available.</p>
+    </div>
+  </ng-template>
+</div>

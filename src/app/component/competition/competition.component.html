@@ -1,0 +1,104 @@
+<div class="overflow-x-auto w-4/5 m-auto mt-28">
+  <button class="btn btn-success" onclick="my_modal_1.showModal()">Add Championship</button>
+  <dialog id="my_modal_1" class="modal">
+    <div class="modal-box">
+      <h3 class="text-lg font-bold">Add a New Championship</h3>
+
+      <form #championshipForm="ngForm" (ngSubmit)="addChampionship()" novalidate>
+        <!-- Name -->
+        <label class="input input-bordered flex items-center gap-2 mb-5">
+          <span>Name</span>
+          <input
+            type="text"
+            class="grow"
+            name="name"
+            [(ngModel)]="newChampionship.name"
+            placeholder="Enter Championship Name"
+            required
+            #name="ngModel"
+          />
+        </label>
+        <p class="text-red-500 text-sm" *ngIf="name.invalid && name.touched">
+          Name is required.
+        </p>
+
+        <!-- Departure Time -->
+        <label class="input input-bordered flex items-center gap-2 mb-5">
+          <span>Departure Time</span>
+          <input
+            type="datetime-local"
+            class="grow"
+            name="departureTime"
+            [(ngModel)]="newChampionship.departureTime"
+            required
+            #departureTime="ngModel"
+          />
+        </label>
+        <p class="text-red-500 text-sm" *ngIf="departureTime.invalid && departureTime.touched">
+          Departure Time is required.
+        </p>
+
+        <!-- Percentage -->
+        <label class="input input-bordered flex items-center gap-2 mb-5">
+          <span>Percentage</span>
+          <input
+            type="number"
+            class="grow"
+            name="percentage"
+            [(ngModel)]="newChampionship.percentage"
+            min="1"
+            max="100"
+            required
+            #percentage="ngModel"
+          />
+        </label>
+        <p class="text-red-500 text-sm" *ngIf="percentage.invalid && percentage.touched">
+          Percentage is required (1-100).
+        </p>
+
+        <!-- Actions -->
+        <div class="modal-action">
+          <button
+            class="btn btn-active btn-primary"
+            type="submit"
+            [disabled]="championshipForm.invalid"
+          >
+            Add Championship
+          </button>
+          <button class="btn" type="button" onclick="my_modal_1.close()">Close</button>
+        </div>
+      </form>
+    </div>
+  </dialog>
+
+  <!-- Championships Table -->
+  <table class="table">
+    <thead>
+    <tr>
+      <th>Name</th>
+      <th>Departure Time</th>
+      <th>Percentage</th>
+      <th>option</th>
+      <th>more info</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let championship of championships">
+      <td>{{ championship.name }}</td>
+      <td>{{ championship.departureTime }}</td>
+      <td>{{ championship.percentage }}%</td>
+      <td>
+        @if (championship.started) {
+        <button (click)="endChampionship(championship.id)" class="btn btn-error">End</button>
+        } @else {
+        <button (click)="StarteChampionship(championship.id)" class="btn btn-info">Starte</button>
+        }
+      </td>
+      <td>
+        <button (click)="moreInfo(championship.id)" class="btn btn-success">More</button>
+      </td>
+
+    </tr>
+    </tbody>
+  </table>
+</div>
