@@ -27,6 +27,7 @@ export class TokenService {
         this.Roles = payload.roles || [];
       }
     }
+    
     return this.Roles;
   }
 
